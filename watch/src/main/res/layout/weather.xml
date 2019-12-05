@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
+
+    <ImageView
+        android:id="@+id/minute_hand"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/minute_hand_container"
+        android:layout_marginStart="@dimen/hands_margin"
+        android:layout_marginEnd="@dimen/hands_margin"/>
+
+    <ImageView
+        android:id="@+id/hour_hand"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/hour_hand_container"
+        android:layout_marginStart="@dimen/hands_margin"
+        android:layout_marginEnd="@dimen/hands_margin"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/elementView"
+        android:layout_gravity="center"
+        android:src="@drawable/element" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|bottom"
+        >
+        <include layout="@layout/weather_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.7"/>
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hour_text_size"
+            tools:text="12:09:54"
+            android:textColor="#ff9f9f9f"
+            android:gravity="center_horizontal|top"/>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.5"
+            tools:text="Moscow"
+            android:textColor="#ffffffff"
+            android:gravity="center_horizontal|top"/>
+    </LinearLayout>
+</FrameLayout>

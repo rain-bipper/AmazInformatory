@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Informatory</string>
+    <string name="channel_description">Background work.</string>
+    <string name="channel_name">Background mode</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Informatory</string>
+    <string name="minutes_ago">%1$dm ago</string>
+</resources>

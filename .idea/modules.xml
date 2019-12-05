@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Informatory.iml" filepath="$PROJECT_DIR$/Informatory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/host/host.iml" filepath="$PROJECT_DIR$/host/host.iml" />
+      <module fileurl="file://$PROJECT_DIR$/huami_libs/huami_libs.iml" filepath="$PROJECT_DIR$/huami_libs/huami_libs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib-common/lib-common.iml" filepath="$PROJECT_DIR$/lib-common/lib-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib-transport/lib-transport.iml" filepath="$PROJECT_DIR$/lib-transport/lib-transport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib-weather/lib-weather.iml" filepath="$PROJECT_DIR$/lib-weather/lib-weather.iml" />
+      <module fileurl="file://$PROJECT_DIR$/watch/watch.iml" filepath="$PROJECT_DIR$/watch/watch.iml" />
+    </modules>
+  </component>
+</project>
