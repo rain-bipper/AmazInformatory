@@ -1,2 +1,2 @@
-include ':watch', ':host', ':lib-transport', ':huami_libs', ':lib-common', ':lib-weather'
+include ':watch', ':host', ':lib-transport', ':huami_libs', ':lib-common', ':lib-host', ':lib-watch'
 rootProject.name='Informatory'

@@ -27,6 +27,8 @@ android {
 
 }
 
+apply from: 'build-config.gradle'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -36,5 +38,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':lib-transport')
     implementation project(path: ':lib-common')
-    implementation project(path: ':lib-weather')
+    implementation project(path: ':lib-host')
 }

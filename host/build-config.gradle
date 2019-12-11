@@ -1,0 +1,5 @@
+android {
+    defaultConfig {
+        buildConfigField('boolean', 'LOCAL_CONNECTION', "${property('host_weather_local_connection')}")
+    }
+}

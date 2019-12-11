@@ -1,0 +1,5 @@
+android {
+    defaultConfig {
+        buildConfigField('boolean', 'STAND_ALONE', "${property('standalone_weather_widget')}")
+    }
+}

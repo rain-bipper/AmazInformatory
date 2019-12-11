@@ -4,24 +4,48 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
+
+import androidx.annotation.Nullable;
 
 import com.formalizationunit.amaz.informatory.common.logger.Logger;
-import com.formalizationunit.amaz.informatory.common.models.CommunicatorModel;
-import com.formalizationunit.amaz.informatory.transport.Actions;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorActionHandler;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorClient;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorHost;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class LocalCommunicator implements CommunicatorModel {
+public class LocalCommunicator implements CommunicatorHost, CommunicatorClient {
     private static final String TAG = "<LocalCommunicator>";
-    private static final String DATA_KEY = "DATA_KEY";
+    static final String DATA_KEY = "DATA_KEY";
 
     private final Context mContext;
     private final List<BroadcastReceiver> mHandlers = new ArrayList<>();
 
     public LocalCommunicator(Context context) {
         mContext = context;
+    }
+
+    @Override
+    public void registerSentWeatherHandler(final CommunicatorActionHandler handler) {
+        registerReceiver(TransportActions.SEND_WEATHER, handler);
+    }
+
+    @Override
+    public void requestWeather(Runnable callback) {
+        Logger.log(TAG, "LocalCommunicatorClient.requestWeather");
+        send(TransportActions.REQUEST_WEATHER, null, callback);
+    }
+
+    @Override
+    public void registerRequestedWeatherHandler(CommunicatorActionHandler handler) {
+        registerReceiver(TransportActions.REQUEST_WEATHER, handler);
+    }
+
+    @Override
+    public void sendWeather(String jsonData, Runnable callback) {
+        Logger.log(TAG, "LocalCommunicatorHost.sendWeather");
+        send(TransportActions.SEND_WEATHER, jsonData, callback);
     }
 
     @Override
@@ -32,50 +56,29 @@ class LocalCommunicator implements CommunicatorModel {
         mHandlers.clear();
     }
 
-    @Override
-    public void registerSentWeatherHandler(final ActionHandler handler) {
+    public void send(String action, @Nullable String data, Runnable callback) {
+        Intent intent = new Intent(action);
+        if (data != null) {
+            intent.putExtra(DATA_KEY, data);
+        }
+        mContext.sendBroadcast(intent);
+
+        // Call back immediately. Use sendOrderedBroadcast with resultReceiver, to call back after
+        // all receivers are done.
+        callback.run();
+    }
+
+    public void registerReceiver(String action, CommunicatorActionHandler handler) {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (Actions.SEND_WEATHER.equals(intent.getAction())) {
+                if (action.equals(intent.getAction())) {
                     handler.onAction(intent.getStringExtra(DATA_KEY));
                 }
             }
         };
-        mContext.registerReceiver(receiver, new IntentFilter(Actions.SEND_WEATHER));
-    }
-
-    @Override
-    public void registerRequestedWeatherHandler(ActionHandler handler) {
-        BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (Actions.REQUEST_WEATHER.equals(intent.getAction())) {
-                    handler.onAction(intent.getStringExtra(DATA_KEY));
-                }
-            }
-        };
-        mContext.registerReceiver(receiver, new IntentFilter(Actions.REQUEST_WEATHER));
-    }
-
-    @Override
-    public void sendWeather(String jsonData, Runnable callback) {
-        Logger.log(TAG, "LocalCommunicator.sendWeather " + jsonData);
-
-        Intent intent = new Intent(Actions.SEND_WEATHER);
-        intent.putExtra(DATA_KEY, jsonData);
-        mContext.sendBroadcast(intent);
-
-        new Handler().postDelayed(callback, 10000);
-    }
-
-    @Override
-    public void requestWeather(Runnable callback) {
-        Logger.log(TAG, "LocalCommunicator.requestWeather");
-
-        Intent intent = new Intent(Actions.REQUEST_WEATHER);
-        mContext.sendBroadcast(intent);
-
-        new Handler().postDelayed(callback, 10000);
+        mContext.registerReceiver(receiver,
+                new IntentFilter(this.getClass().getName() + "/" + action));
+        mHandlers.add(receiver);
     }
 }

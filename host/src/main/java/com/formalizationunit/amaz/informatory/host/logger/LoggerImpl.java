@@ -2,7 +2,7 @@ package com.formalizationunit.amaz.informatory.host.logger;
 
 import androidx.annotation.Nullable;
 
-import com.formalizationunit.amaz.informatory.amaz.host.weather.BuildConfig;
+import com.formalizationunit.amaz.informatory.host.weather.BuildConfig;
 import com.formalizationunit.amaz.informatory.common.logger.LoggerInterface;
 
 import java.io.File;

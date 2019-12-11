@@ -12,8 +12,8 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
-import com.formalizationunit.amaz.informatory.common.communicators.CommunicatorFactory;
 import com.formalizationunit.amaz.informatory.common.logger.Logger;
+import com.formalizationunit.amaz.informatory.host.weather.ApiKeyProvider;
 
 public class MainService extends Service {
     private static final String TAG = "<MainService>";
@@ -60,10 +60,17 @@ public class MainService extends Service {
         // Yandex geocoder:
         //   1. register at https://yandex.com
         //   2. get API key at https://developer.tech.yandex.com/ , select HTTP geocoder.
-        String weatherApiKey = <intended to be read from settings>
-        String geocoderApiKey = <intended to be read from settings>
-        mFacade = new Facade(this, CommunicatorFactory.create(this), weatherApiKey,
-                geocoderApiKey, mProcessCallback);
+        mFacade = new Facade(this, CommunicatorFactory.create(this), new ApiKeyProvider() {
+            @Override
+            public String weatherApiKey() {
+                return <enter your key here>;
+            }
+
+            @Override
+            public String geocoderApiKey() {
+                return <enter your key here>;
+            }
+        }, mProcessCallback);
     }
 
     @Override

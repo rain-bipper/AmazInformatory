@@ -6,8 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/host/host.iml" filepath="$PROJECT_DIR$/host/host.iml" />
       <module fileurl="file://$PROJECT_DIR$/huami_libs/huami_libs.iml" filepath="$PROJECT_DIR$/huami_libs/huami_libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib-common/lib-common.iml" filepath="$PROJECT_DIR$/lib-common/lib-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib-host/lib-host.iml" filepath="$PROJECT_DIR$/lib-host/lib-host.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib-transport/lib-transport.iml" filepath="$PROJECT_DIR$/lib-transport/lib-transport.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib-weather/lib-weather.iml" filepath="$PROJECT_DIR$/lib-weather/lib-weather.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib-watch/lib-watch.iml" filepath="$PROJECT_DIR$/lib-watch/lib-watch.iml" />
       <module fileurl="file://$PROJECT_DIR$/watch/watch.iml" filepath="$PROJECT_DIR$/watch/watch.iml" />
     </modules>
   </component>

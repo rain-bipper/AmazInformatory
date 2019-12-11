@@ -17,7 +17,7 @@ public class TransportDispatcher {
         void onAction(@Nullable String data);
     }
 
-    public TransportDispatcher(Context context, @Channels String channel) {
+    public TransportDispatcher(Context context, String channel) {
         mTransport = new Transport(context.getApplicationContext(), channel,
                 this::onDataReceived);
     }
@@ -26,11 +26,11 @@ public class TransportDispatcher {
         mTransport.destroy();
     }
 
-    public void registerActionHandler(@Actions String action, ActionHandler handler) {
+    public void registerActionHandler(String action, ActionHandler handler) {
         mActionHandlers.put(action, handler);
     }
 
-    public void send(@Actions String action, @Nullable String data, Runnable callback) {
+    public void send(String action, @Nullable String data, Runnable callback) {
         mTransport.send(action, Message.toData(data), callback);
     }
 

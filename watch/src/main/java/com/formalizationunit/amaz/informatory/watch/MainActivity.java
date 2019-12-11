@@ -18,7 +18,8 @@ public class MainActivity extends Activity {
         Logger.log(TAG, "MainActivity.onCreate");
 
         Handler handler = new Handler(Looper.getMainLooper());
-        mWidget = new WeatherWidget(this, TransportHolder.getCommunicator(), handler::post);
+        CommunicatorHolder.ensureCreated(this);
+        mWidget = new WeatherWidget(CommunicatorHolder.getCommunicator(), handler::post);
         setContentView(mWidget.getView(this));
     }
 

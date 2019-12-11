@@ -21,14 +21,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
 import com.formalizationunit.amaz.informatory.common.logger.Logger;
-import com.formalizationunit.amaz.informatory.common.models.CommunicatorModel;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorClient;
 import com.formalizationunit.amaz.informatory.common.models.WeatherModel;
-import com.formalizationunit.amaz.informatory.common.util.Device;
 import com.formalizationunit.amaz.informatory.watch.App;
 import com.formalizationunit.amaz.informatory.watch.R;
 import com.formalizationunit.amaz.informatory.common.util.UiRunner;
 import com.formalizationunit.amaz.informatory.watch.Widget;
-import com.formalizationunit.amaz.informatory.watch.system.SystemSettings;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
@@ -44,9 +42,8 @@ public class WeatherWidget implements Widget {
     private static final long  MIN_UPDATE_TIME_MS = 15 * 60 * 1000;  // 15 minutes.
     private static final int UPDATE_DELAY_MS = 3 * 1000;  // 3 seconds.
 
-    private final Context mContext;
     private final UiRunner mUiRunner;
-    private final CommunicatorModel mCommunicator;
+    private final CommunicatorClient mCommunicator;
 
     private PeriodicWeatherVisualizer mPeriodicWeatherVisualizer;
     private View mView;
@@ -56,8 +53,7 @@ public class WeatherWidget implements Widget {
     private boolean mActive;
     private Long mLastUpdateTime;
 
-    public WeatherWidget(Context context, CommunicatorModel communicator, UiRunner uiRunner) {
-        mContext = context;
+    public WeatherWidget(CommunicatorClient communicator, UiRunner uiRunner) {
         mCommunicator = communicator;
         mUiRunner = uiRunner;
 
@@ -229,10 +225,6 @@ public class WeatherWidget implements Widget {
         }
 
         mLastUpdateTime = System.currentTimeMillis();
-
-        if (Device.isWatch()) {
-            SystemSettings.set(mContext, "WeatherInfo", jsonData);
-        }
 
         if (!mActive) {
             mPendingData = weather;

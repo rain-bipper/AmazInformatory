@@ -5,8 +5,9 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.formalizationunit.amaz.informatory.common.logger.Logger;
-import com.formalizationunit.amaz.informatory.common.models.CommunicatorModel;
-import com.formalizationunit.amaz.informatory.amaz.host.weather.WeatherController;
+import com.formalizationunit.amaz.informatory.host.weather.ApiKeyProvider;
+import com.formalizationunit.amaz.informatory.host.weather.WeatherController;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorHost;
 import com.formalizationunit.amaz.informatory.common.util.PeriodicProcessor;
 
 class Facade {
@@ -14,7 +15,7 @@ class Facade {
     private static final int PERIOD_MS = 15 * 60 * 1000;  // 15 minutes.
 
     private final WeatherController mWeatherController;
-    private final CommunicatorModel mCommunicator;
+    private final CommunicatorHost mCommunicator;
     private final Callback mPeriodicCallback;
     private PeriodicProcessor mPeriodicProcessor;
 
@@ -24,13 +25,12 @@ class Facade {
     }
 
 
-    Facade(Context context, CommunicatorModel communicator, String weatherApiKey,
-           String geocoderApiKey, Callback periodicCallback) {
+    Facade(Context context, CommunicatorHost communicator, ApiKeyProvider apiKeyProvider,
+           Callback periodicCallback) {
         mCommunicator = communicator;
         mCommunicator.registerRequestedWeatherHandler((data) -> updateRequestedFromWatch());
         mPeriodicCallback = periodicCallback;
-        mWeatherController = new WeatherController(context, mCommunicator, weatherApiKey,
-                geocoderApiKey);
+        mWeatherController = new WeatherController(context, mCommunicator, apiKeyProvider);
 
         Handler handler = new Handler(Looper.getMainLooper());
         mPeriodicProcessor = new PeriodicProcessor(handler::post, () -> {

@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 
+import com.formalizationunit.amaz.informatory.common.logger.Logger;
+import com.formalizationunit.amaz.informatory.watch.App;
 import com.formalizationunit.amaz.informatory.watch.R;
-import com.formalizationunit.amaz.informatory.watch.TransportHolder;
+import com.formalizationunit.amaz.informatory.watch.CommunicatorHolder;
 
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
 
 public class WeatherPlugin extends AbstractPlugin {
-    //private static final String TAG = "<WeatherPlugin>";
+    private static final String TAG = "<WeatherPlugin>";
 
     private WeatherWidget mWidget;
     private boolean mIsActive;
@@ -23,29 +26,28 @@ public class WeatherPlugin extends AbstractPlugin {
     @Override
     public View getView(Context context) {
         //App.ensureLoggerCreated();
-        //Logger.log(TAG, "WeatherPlugin.getView " + mWidget);
+        Logger.log(TAG, "WeatherPlugin.getView " + mWidget);
         return mWidget.getView(context);
     }
 
     //Return the icon for this page, used when the page is disabled in the app list. In this case, the launcher icon is used
     @Override
     public Bitmap getWidgetIcon(Context context) {
-        //Logger.log(TAG, "WeatherPlugin.getWidgetIcon");
+        Logger.log(TAG, "WeatherPlugin.getWidgetIcon");
         return ((BitmapDrawable) context.getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap();
     }
 
     //Return the launcher intent for this page. This might be used for the launcher as well when the page is disabled?
     @Override
     public Intent getWidgetIntent() {
-        //Logger.log(TAG, "WeatherPlugin.getWidgetIntent");
-        Intent localIntent = new Intent();
-        return localIntent;
+        Logger.log(TAG, "WeatherPlugin.getWidgetIntent");
+        return new Intent();
     }
 
     //Return the title for this page, used when the page is disabled in the app list. In this case, the app name is used
     @Override
     public String getWidgetTitle(Context context) {
-        //Logger.log(TAG, "WeatherPlugin.getWidgetTitle");
+        Logger.log(TAG, "WeatherPlugin.getWidgetTitle");
         return context.getResources().getString(R.string.app_name);
     }
 
@@ -53,22 +55,20 @@ public class WeatherPlugin extends AbstractPlugin {
     @Override
     public void onActive(Bundle bundle) {
         super.onActive(bundle);
-        //Logger.log(TAG, "WeatherPlugin.onActive: " + bundle + ". is main thread " +
-        //        (Looper.getMainLooper().getThread() == Thread.currentThread()));
+        Logger.log(TAG, "WeatherPlugin.onActive: " + bundle + ". is main thread " +
+                (Looper.getMainLooper().getThread() == Thread.currentThread()));
         setActive();
     }
 
     //Called when the page is loading and being bound to the host
     @Override
     public void onBindHost(ISpringBoardHostStub springBoardHostStub) {
-        //App.ensureLoggerCreated();
-        //Logger.log(TAG, "WeatherPlugin.onBindHost. is main thread " +
-        //        (Looper.getMainLooper().getThread() == Thread.currentThread()));
-        //Logger.log(TAG, "onBindHost");
+        App.ensureLoggerCreated();
+        Logger.log(TAG, "WeatherPlugin.onBindHost. is main thread " +
+                (Looper.getMainLooper().getThread() == Thread.currentThread()));
         Context context = springBoardHostStub.getHostWindow().getContext();
-        TransportHolder.ensureCreated(context);
-        mWidget = new WeatherWidget(context,
-                TransportHolder.getCommunicator(),
+        CommunicatorHolder.ensureCreated(context);
+        mWidget = new WeatherWidget(CommunicatorHolder.getCommunicator(),
                 runnable -> springBoardHostStub.runTaskOnUI(WeatherPlugin.this, runnable));
 
         /*
@@ -97,8 +97,8 @@ public class WeatherPlugin extends AbstractPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //Logger.log(TAG, "WeatherPlugin.onBindHost. is main thread " +
-        //        (Looper.getMainLooper().getThread() == Thread.currentThread()));
+        Logger.log(TAG, "WeatherPlugin.onBindHost. is main thread " +
+                (Looper.getMainLooper().getThread() == Thread.currentThread()));
         setInactive();
     }
 
@@ -106,8 +106,8 @@ public class WeatherPlugin extends AbstractPlugin {
     @Override
     public void onInactive(Bundle bundle) {
         super.onInactive(bundle);
-        //Logger.log(TAG, "WeatherPlugin.onInactive: " + bundle + ". is main thread " +
-        //        (Looper.getMainLooper().getThread() == Thread.currentThread()));
+        Logger.log(TAG, "WeatherPlugin.onInactive: " + bundle + ". is main thread " +
+                (Looper.getMainLooper().getThread() == Thread.currentThread()));
         setInactive();
     }
 
@@ -115,16 +115,16 @@ public class WeatherPlugin extends AbstractPlugin {
     @Override
     public void onPause() {
         super.onPause();
-        //Logger.log(TAG, "WeatherPlugin.onPause. is main thread " +
-        //        (Looper.getMainLooper().getThread() == Thread.currentThread()));
+        Logger.log(TAG, "WeatherPlugin.onPause. is main thread " +
+                (Looper.getMainLooper().getThread() == Thread.currentThread()));
         setInactive();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //Logger.log(TAG, "WeatherPlugin.onResume. is main thread " +
-        //        (Looper.getMainLooper().getThread() == Thread.currentThread()));
+        Logger.log(TAG, "WeatherPlugin.onResume. is main thread " +
+                (Looper.getMainLooper().getThread() == Thread.currentThread()));
         setActive();
     }
 
@@ -141,8 +141,8 @@ public class WeatherPlugin extends AbstractPlugin {
     @Override
     public void onStop() {
         super.onStop();
-        //Logger.log(TAG, "WeatherPlugin.onStop. is main thread " +
-        //        (Looper.getMainLooper().getThread() == Thread.currentThread()));
+        Logger.log(TAG, "WeatherPlugin.onStop. is main thread " +
+                (Looper.getMainLooper().getThread() == Thread.currentThread()));
         setInactive();
     }
 
